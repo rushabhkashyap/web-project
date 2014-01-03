@@ -125,7 +125,7 @@
 </div>
 
 <article>
-	    <div class = "heading">
+	    <div class="heading">
 		  		
 <?php
 # Logging in with Google accounts requires setting special identity, so this example shows how to do it.
