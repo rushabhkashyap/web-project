@@ -126,7 +126,7 @@
 
 <article>
 	    <div class = "heading">
-		  </p>		
+		  		
 <?php
 # Logging in with Google accounts requires setting special identity, so this example shows how to do it.
 require 'openid.php';
@@ -160,7 +160,7 @@ try {
 	
 <article>
     <div class ="heading">
-	</p>
+	
 <?php
 try {
     
