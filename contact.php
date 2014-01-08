@@ -2,10 +2,10 @@
   <head>
      <title> Contacts </title> 
 	   
-	 <link rel="stylesheet" href="css/style.css">
-	 <link rel="stylesheet" href="css/zerogrid.css">
-	 <link rel="stylesheet" href="css/responsiveslides.css" />
-	 <link rel="stylesheet" href="css/responsive.css">
+	 <link rel="stylesheet" href="style.css">
+	 <link rel="stylesheet" href="zerogrid.css">
+	 <link rel="stylesheet" href="responsiveslides.css" />
+	 <link rel="stylesheet" href="responsive.css">
 	 
    </head>
    
@@ -19,7 +19,7 @@
 			   
 			</div>
 		</div>
-	</div>--><div class="zerogrid"><div class="heading">Welcome to G-app</div></div>
+	</div>--><div class="zerogrid"><div class="heading"></div></div>
     </header>
 	
 	<section id="content">
@@ -44,9 +44,9 @@
 					<div class="heading">you can</div>
 					<div class="content">
 						<ol>
-							<li>1. Log in using your gmail account</li>
-							<li>2. Sign up </li>
-							<li>3. Retrieve your contacts from gmail</li>
+							<li>1. Log in through gmail </li>
+							<li>2. Retrieve your contacts from gmail </li>
+							<li>3. View account Information</li>
 							
 						</ol>
 						<br/>
@@ -70,7 +70,7 @@
 							
 							<h4></h4>
 							<p><h4>Go to login page</h4></p>
-							<a class="button" href="http://localhost/gapp/login.php">
+							<a class="button" href="login.php">
 							Login
 							</a>
 						
@@ -98,12 +98,13 @@ else
 
 $sClientId = '378103376714.apps.googleusercontent.com';
 $sClientSecret = 'l7c-EjPp22VD6khGkJZo5WQ5';
-$sCallback = 'http://localhost/gapp/contact.php'; 
+$sCallback = 'http://redriderapps.net46.net/contact.php'; 
 $iMaxResults = 30; // max results
 $sStep = 'auth'; // current step
 
 // include GmailOath library  https://code.google.com/p/rspsms/source/browse/trunk/system/plugins/GmailContacts/GmailOath.php?r=11
 include_once('GmailOath.php');
+
 
 session_start();
 
@@ -131,14 +132,19 @@ if ($_GET && $_GET['oauth_token'])
 
     // turn array with contacts into html string
     $sContacts = $sContactName = '';
+     
 	if (is_array($aContacts) && count($aContacts))
     foreach($aContacts as $k => $aInfo) 
 	{
+      //  $phone1 = end($aInfo['gd$phoneNumber'][0]);
+    //    $note = end($aInfo['content']);
+    //   $address = end($aInfo['gd$postalAddress'][0]);
+ // echo $contact['feed']['entry'][0]['gd$email'][0]['address'][0]['gd$phoneNumber'][0]['phone1'];
         $sContactName = end($aInfo['title']);
         $aLast = end($aContacts[$k]);
         foreach($aLast as $aEmail) {
             $sContacts .= '<p>' . $sContactName . '(' . $aEmail['address'] . ')</p>';
-        };
+        }; 
     };
 	
 }
@@ -150,75 +156,31 @@ if ($_GET && $_GET['oauth_token'])
     $_SESSION['oauth_token_secret'] = $oRequestToken['oauth_token_secret'];
     }
 
-	function curl_file_get_contents($url)
-{
- $curl = curl_init();
- $userAgent = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)';
- 
- curl_setopt($curl,CURLOPT_URL,$url); //The URL to fetch. This can also be set when initializing a session with curl_init().
- curl_setopt($curl,CURLOPT_RETURNTRANSFER,TRUE); //TRUE to return the transfer as a string of the return value of curl_exec() instead of outputting it out directly.
- curl_setopt($curl,CURLOPT_CONNECTTIMEOUT,5); //The number of seconds to wait while trying to connect.	
- 
- curl_setopt($curl, CURLOPT_USERAGENT, $userAgent); //The contents of the "User-Agent: " header to be used in a HTTP request.
- curl_setopt($curl, CURLOPT_FAILONERROR, TRUE); //To fail silently if the HTTP code returned is greater than or equal to 400.
- curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE); //To follow any "Location: " header that the server sends as part of the HTTP header.
- curl_setopt($curl, CURLOPT_AUTOREFERER, TRUE); //To automatically set the Referer: field in requests where it follows a Location: redirect.
- curl_setopt($curl, CURLOPT_TIMEOUT, 10); //The maximum number of seconds to allow cURL functions to execute.	
- 
- curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
- curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
- 
- $contents = curl_exec($curl);
- curl_close($curl);
- return $contents;
-}
-
 ?>
 
 
 				<article>
 					<div class="heading">
-						<?php if ($sStep == 'auth'): ?>
+						<?php   if ($sStep == 'auth'):  ?>
                             <h2></h2>
                             <p class="info"> Click below in order to fetch the contacts </p>
 							<p class="more">
 							<a class="button" href="https://www.google.com/accounts/OAuthAuthorizeToken?oauth_token=<?php echo $oAuth->rfc3986_decode($oRequestToken['oauth_token']) ?>"> Check Authorization </a>
                             </p>
-						<?php elseif ($sStep == 'fetch_contacts'): ?>
+                                     <?php echo "<pre>";                //print array to console
+                                           {print_r($sContacts);}
+                                            echo "</pre>"; ?>
+						<?php  elseif ($sStep == 'fetch_contacts'):  ?>
                             <h3></h3>
                             
-                        <?= $sContacts ?>
-                        <?php endif ?>
-					    <?php 
-						     /*
-							 $url = 'https://www.google.com/m8/feeds/contacts/default/full?max-results='.$iMaxResults.'&alt=json&v=3.0&oauth_token='.$sDecodedToken;
-                             $xmlresponse =  curl_file_get_contents($url);
- 
-                             $temp = json_decode($xmlresponse,true);
-                             if (!empty($temp)) 
-							 {
-                              foreach($temp['feed']['entry'] as $cnt)
-   							    {
-	                           echo $cnt['title']['$t'] . " --- " . $cnt['gd$email']['0']['address'] . "</br>";
-                                }
-							 }	
-                             	*/					 
-                        ?> 
+                        <?= $sContacts  ?>
+                        <?php  endif ?>
+					    
 					</div>
 					<br/>					
 				</article>
 				
-				<article>
-					<div class="heading">
-						
-                            <h2></h2>
-                            
-                            <?php echo $contact['feed']['entry'][0]['gd$email'][0]['address']; ?>
-                       
-                        
-					</div>
-					<br/>					
-				</article>
+				
 		</div>
 	</div>	
 </div>
