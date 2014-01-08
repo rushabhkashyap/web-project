@@ -2,15 +2,15 @@
   <head>
      <title> Login </title>
 	 
-	 <link rel="stylesheet" href="css/style.css">
-	 <link rel="stylesheet" href="css/zerogrid.css">
-	 <link rel="stylesheet" href="css/responsiveslides.css" />
-	 <link rel="stylesheet" href="css/responsive.css">
+	 <link rel="stylesheet" href="style.css">
+	 <link rel="stylesheet" href="zerogrid.css">
+	 <link rel="stylesheet" href="responsiveslides.css" />
+	 <link rel="stylesheet" href="responsive.css">
 	 
    </head>
    
    <header> 
-	<!--<div class="zerogrid"><h1>Wecome
+	<!--<div ><h1>Wecome
 		<div class="row">
 			<div class="col05">
 				
@@ -19,7 +19,7 @@
 			   
 			</div>
 		</div>
-	</div>--><div class="zerogrid"><div class="heading">Welcome to G-app</div></div>
+	</div>--><div ><div class="heading" align="center"><h2> Welcome to G-app </h2> </div></div>
     </header>
 	
 	<section id="content">
@@ -131,7 +131,7 @@
 # Logging in with Google accounts requires setting special identity, so this example shows how to do it.
 require 'openid.php';
 try {
-    $openid = new LightOpenID('localhost');
+    $openid = new LightOpenID('http://redriderapps.net46.net/');
     if(!$openid->mode) 
 	{
         if(isset($_GET['login'])) 
@@ -164,7 +164,7 @@ try {
 <?php
 try {
     
-    $openid = new LightOpenID('localhost');
+    $openid = new LightOpenID('http://redriderapps.net46.net/');
     if(!$openid->mode) 
 	{
         if(isset($_POST['openid_identifier'])) 
