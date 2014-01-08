@@ -1,68 +1,27 @@
-
 <?php
-/* function process_signup_login($data)
-{
-    $email = $data['email'];
-    $username = $data['username'];
-    $source = $data['source'];
-     
-   // $result = $this->db->get_where('users' , array('email' => $email));
-     
-        //if the user already exists , then log him in rightaway
-    if($result->num_rows() > 0)
-    {
-        //already registered , just login him
-        $row = $result->row_array();
-        $this->do_login($row);
-    }
-        //new user, first sign him up, then log him in
-    else
-    {
-        //register him , and login
-        $toi = array(
-            'email' => $email ,
-            'username' => $username ,
-            'password' => md5($this->new_password()) ,
-            'source' => $source ,
-        );
-         
-        $this->db->insert('users' , $toi);
-         
-        $result = $this->db->get_where('users' , array('email' => $email));
-         
-        if($result->num_rows() > 0)
-        {
-            $row = $result->row_array();
-            $this->do_login($row);
-        }
-    }
-     
-        //redirect to somewhere
-    redirect(site_url());
-}
- 
-/**
-    Do login taking a row of resultset
-*/ /*
-function do_login($row)
-{
-    session_set('uid' , $row['id']);
-    session_set('email' , $row['email']);
-    session_set('logged_in' , true);
-     
-    return true;
-}
- */
+
 ?>
 
 <!DOCTYPE html>
   <head>
      <title> Information </title> 
 	   
-	 <link rel="stylesheet" href="css/style.css">
-	 <link rel="stylesheet" href="css/zerogrid.css">
-	 <link rel="stylesheet" href="css/responsiveslides.css" />
-	 <link rel="stylesheet" href="css/responsive.css">
+	 <link rel="stylesheet" href="style.css">
+	 <link rel="stylesheet" href="zerogrid.css">
+	 <link rel="stylesheet" href="responsiveslides.css" />
+	 <link rel="stylesheet" href="responsive.css">
+
+<style>
+
+ .eventTime {
+    color:#0CF;
+ }
+
+ .eventTitle {
+    color:#0FC; 
+ }
+
+ </style>
 	 
    </head>
    
@@ -76,7 +35,7 @@ function do_login($row)
 			   
 			</div>
 		</div>
-	</div>--><div class="zerogrid"><div class="heading">Welcome to G-app</div></div>
+	</div>--><div class="zerogrid"><div class="heading"></div></div>
     </header>
 	
 	<section id="content">
@@ -127,7 +86,7 @@ function do_login($row)
 							
 							<h4></h4>
 							<p><h4>Go to login page</h4></p>
-							<a class="button"  href="http://localhost/gapp/login.php">Login </a>
+							<a class="button"  href="login.php">Login </a>
 						
 						</section>
 						
@@ -143,7 +102,8 @@ function do_login($row)
 
 <?php
 require 'openid.php';
-						try
+						
+try
 {
     
     $openid = new LightOpenID($_SERVER['HTTP_HOST']);
@@ -194,8 +154,7 @@ require 'openid.php';
                 foreach($d as $attr => $val)
                   print (" $attr : $val <br/>");
 				  
-                        
-          //  process_signup_login($data);
+    
         }
         else
         {
@@ -216,7 +175,31 @@ catch(ErrorException $e)
 				<article>
 					<div class="heading">
 						<h2>Your calendar</h2>
-			<iframe src="https://www.google.com/calendar/embed?src=<?php $d['contact/email']; ?>%40gmail.com&ctz=Asia/Calcutta" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>			
+<?php 
+/* 
+$email = $d['contact/email'];
+$url = "http://www.google.com/calendar/feeds/".$email."/public/full";
+$xml = file_get_contents($url);
+
+$feed = simplexml_load_string($xml);
+$ns = $feed->getNamespaces(true);
+
+ foreach ($feed->entry as $entry) {
+    $when=$entry->children($ns["gd"]);
+    $when_atr=$when->when[0]->attributes();
+
+    $title=$entry->title;
+    echo "<div class='eventTitle'>".$title . "</div>";
+
+    $start = new DateTime($when_atr['startTime']);
+    echo "<div class='eventTime'>".$start->format('D F jS, g:ia') . " to ";    
+
+    $end = new DateTime($when_atr['endTime']);
+    echo $end->format('g:ia')."</div>" . '<br />' ;    
+}
+*/
+ ?> 
+			
 									
 				</article>
             </div>
